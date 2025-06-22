@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oxanium:wght@200..800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  background-image: url("https://ik.imagekit.io/deceuior6/PHOTO/_%E5%93%B2%E9%A3%8E%E5%A3%81%E7%BA%B8_LABUBU-%E5%8F%AF%E7%88%B1%E8%A7%92%E8%89%B2.png?updatedAt=1750501706576");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+}
