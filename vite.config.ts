@@ -7,4 +7,8 @@ export default defineConfig({
   plugins: [
     react(),
   ],
+  server: {
+    host: 'web.localhost', // subdomain name
+    port: 5173,             // default port or change if needed
+  },
 })

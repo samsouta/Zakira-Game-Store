@@ -1,0 +1,23 @@
+:root {
+  --sky-blue: #38bdf8;
+  --amber: #facc15;
+  --rose-pink: #f472b6;
+  --purple: #c084fc;
+
+  /* ============================================
+   LIQUID GLASS UI SYSTEM 
+   ============================================ */
+  /* 🌐 Liquid Glass UI Variables */
+  --glass-light-bg: rgba(255, 255, 255, 0.08);
+  --glass-light-border: rgba(255, 255, 255, 0.25);
+  --glass-light-shadow: rgba(0, 0, 0, 0.1);
+  --glass-light-shine: rgba(255, 255, 255, 0.6);
+  --glass-light-text: rgba(0, 0, 0, 0.8);
+
+  /* Dark Mode Glass Variables */
+  --glass-dark-bg: rgba(0, 0, 0, 0.15);
+  --glass-dark-border: rgba(255, 255, 255, 0.12);
+  --glass-dark-shadow: rgba(0, 0, 0, 0.3);
+  --glass-dark-shine: rgba(255, 255, 255, 0.15);
+  --glass-dark-text: rgba(255, 255, 255, 0.9);
+}
