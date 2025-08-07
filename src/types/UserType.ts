@@ -19,3 +19,23 @@ export interface UserData {
   username: string;
   phone_number: string;
 }
+
+export type UserType = {
+  id: number;
+  username: string;
+  phone_number: string;
+  email: string | null;
+  is_admin: boolean;
+  is_online: boolean;
+  wallet_amount: string;
+  is_banned: boolean;
+  ban_reason: string | null;
+  email_verified_at: string | null;
+};
+
+
+export type UserResponse = {
+  success: boolean;
+  message: string;
+  data: UserType;
+}

@@ -13,28 +13,34 @@ export const OrderTable: React.FC<OrderTableProps> = ({ orders, onViewDetails })
             <table className="w-full">
                 <thead>
                     <tr className="bg-white/5 border-b border-white/10">
-                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold text-blue-200 min-w-[100px]">Product ID</th>
-                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold text-blue-200 min-w-[150px]">Description</th>
-                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold text-blue-200 min-w-[100px]">Price</th>
-                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold text-blue-200 min-w-[120px]">Status</th>
-                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold text-blue-200 min-w-[140px]">Date</th>
-                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold text-blue-200 min-w-[80px]">Actions</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[100px]">Order ID</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[150px]">Description</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[150px]">Category</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[100px]">Price</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[120px]">Status</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[140px]">Date</th>
+                        <th className="text-left p-2 md:p-4 text-xs md:text-sm font-semibold opacity-60 min-w-[80px]">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {orders.map((order) => (
                         <tr key={order?.id} className="border-b border-white/5 hover:bg-white/5 transition-colors duration-200">
-                            <td className="p-2 md:p-4 text-white font-mono text-xs md:text-sm">{order?.product_id}</td>
-                            <td className="p-2 md:p-4 text-white text-xs md:text-sm">
+                            <td className="p-2 md:p-4 font-mono text-xs md:text-sm">{order?.id}</td>
+                            <td className="p-2 md:p-4  text-xs md:text-sm">
                                 <div className="max-w-[120px] md:max-w-none truncate md:whitespace-normal" title={order?.product?.name}>
                                     {order?.product?.name}
                                 </div>
                             </td>
-                            <td className="p-2 md:p-4 text-white font-semibold text-xs md:text-sm">{formatCurrency(Number(order?.total_price))}</td>
-                            <td className="p-2 md:p-4 text-white font-semibold text-xs md:text-sm">
+                            <td className="p-2 md:p-4  text-xs md:text-sm">
+                                <div className="max-w-[120px] md:max-w-none truncate md:whitespace-normal" title={order?.product?.name}>
+                                    {order?.product?.product_type}
+                                </div>
+                            </td>
+                            <td className="p-2 md:p-4 font-semibold text-xs md:text-sm">{formatCurrency(Number(order?.total_price))}</td>
+                            <td className="p-2 md:p-4 font-semibold text-xs md:text-sm">
                                 {order.payment_status}
                             </td>
-                            <td className="p-2 md:p-4 text-blue-200 text-xs md:text-sm">
+                            <td className="p-2 md:p-4 opacity-60 text-xs md:text-sm">
                                 <div className="">{formatDate(order?.created_at)}</div>
                                 {/* <div className="">
                                     {new Date(order?.created_at).toLocaleDateString('en-US', {

@@ -9,15 +9,18 @@ export const ProductsAPI = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
   tagTypes: ['product'],
   endpoints: (builder) => ({
+
+
     /**
-     * Get all Products
-     */
-    getProducts: builder.query<ProductsResponse, { page?: number; service_id?: number; }>({
-      query: ({ page = 1, service_id }) => {
+ * Get all Products (with optional filters)
+ */
+    getProducts: builder.query<ProductsResponse, { page?: number; service_id?: number; product_type?: string; }>({
+      query: ({ page = 1, service_id, product_type }) => {
         const params = new URLSearchParams();
 
-        params.append('page', page.toString());
-        if (service_id) params.append('service_id', service_id.toString());
+        params.set('page', page.toString());
+        if (service_id !== undefined) params.set('service_id', service_id.toString());
+        if (product_type) params.set('product_type', product_type);
 
         return {
           url: `products?${params.toString()}`,
@@ -29,6 +32,7 @@ export const ProductsAPI = createApi({
       },
       providesTags: ['product'],
     }),
+
 
 
 

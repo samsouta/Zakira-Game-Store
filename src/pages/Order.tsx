@@ -6,6 +6,7 @@ import { Check, Package, CreditCard, ArrowRight, Sparkles, AlertCircle, KeyRound
 import { useMakeOrderMutation } from '../services/API/orderAPI';
 import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
+import PageMeta from '../components/common/PageMeta';
 
 export const Order = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -29,6 +30,7 @@ export const Order = () => {
    * @function Handle ConfirmOrder 
    */
   const handleConfirmOrder = async () => {
+    if (isLoading) return;
     try {
       const response = await makeOrder({
         orderId: Number(order?.orderId),
@@ -62,6 +64,11 @@ export const Order = () => {
 
   return (
     <>
+    <PageMeta
+        title="Zakari - Order"
+        description="Zakari is a game store that sells games and products"
+      />
+
       <div className={`min-h-screen w-full p-2`}>
         <div className={`relative w-full border rounded-2xl ${liquidGlassClasses?.base} ${liquidGlassClasses?.liquidText} px-2`}>
           {/* Header */}
@@ -209,20 +216,79 @@ export const Order = () => {
               </div>
             ) : (
               <div className={`mt-6 p-5 sm:p-6 rounded-2xl border md:max-w-[500px] md:mx-auto border-white/20  shadow-lg transition-all duration-300 animate-fadeIn ${liquidGlassClasses?.base}`}>
-                {/* Header */}
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-9 h-9 rounded-full bg-emerald-500 flex items-center justify-center shadow-md mr-3">
-                    <Check className="w-5 h-5 " />
+                {/* Success Header */}
+                <div className="flex flex-col items-center justify-center mb-6 transform transition-all duration-300 hover:scale-105">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg mb-4">
+                    <Check className="w-8 h-8 text-white animate-bounce" />
                   </div>
-                  <p className=" font-semibold text-base sm:text-lg">
+                  <h2 className="font-bold text-xl md:text-2xl text-center bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
                     Thank you! Your order is confirmed.
-                  </p>
+                  </h2>
                 </div>
 
-                <p className="text-sm opacity-70 text-center mb-4">
-                  Please use the following credentials to log in. <br></br>
-                  ဒီက email နဲ့ password ကိုသုံးပြီး game acc ထဲကိုဝင်လို့ရပါပြီ
-                </p>
+                <div className=" mb-2">
+                  <div className="flex items-center justify-center p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl mb-4">
+                    <div className="flex items-start gap-3">
+                      <svg 
+                        className="w-6 h-6 text-yellow-500 mt-1 animate-pulse"
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                        />
+                      </svg>
+                      <div>
+                        <h4 className="font-semibold text-yellow-500 mb-1 text-sm">Important Notice | စာသေချာဖတ်ပါ!</h4>
+                        <p className="text-sm text-yellow-600/80">
+                          Please carefully save the following login credentials.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col w-full">
+                    <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-4 transform hover:scale-[1.02] transition-all duration-300">
+                      <p className="text-sm text-center font-medium  mb-2">
+                        email ရယူဖို့အတွက် အတည်ပြုရန်လိုအပ်ပါတယ်
+                      </p>
+                      
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <span className="text-sm opacity-60">Admin ထဲ ဆက်သွယ်ပါ</span>
+                        <div className="flex flex-wrap justify-center gap-2">
+                          <a 
+                            href="https://t.me/Zkari889"
+                            className="group flex items-center gap-2 text-sm px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-blue-500/30 transition-all duration-300"
+                          >
+                            <svg className="w-4 h-4 text-blue-400 group-hover:text-blue-300" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l7.5 4.5-7.5 4.5z"/>
+                            </svg>
+                            <span className="text-blue-400 group-hover:text-blue-300 font-medium">@Admin1</span>
+                          </a>
+                          <a 
+                            href="https://t.me/samsouta"
+                            className="group flex items-center text-sm gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-blue-500/30 transition-all duration-300"
+                          >
+                            <svg className="w-4 h-4 text-blue-400 group-hover:text-blue-300" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l7.5 4.5-7.5 4.5z"/>
+                            </svg>
+                            <span className="text-blue-400 group-hover:text-blue-300 font-medium">@Admin2</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 p-3 text-sm rounded-lg bg-red-500/10 border border-red-500/20">
+                    <p className="text-center text-red-400 font-medium">
+                      Admin ထံ email ပဲ ပို့ပါ ကျန်တဲ့ password and game password ပို့ရန်မလိုပါ
+                    </p>
+                  </div>
+                </div>
 
                 {/* Credential Block */}
                 <div className="grid gap-3 text-sm sm:text-base font-medium">
@@ -251,11 +317,14 @@ export const Order = () => {
                   </div>
                 </div>
 
-                {/* Footer Note */}
-                <p className="text-xs opacity-70 text-center mt-4">
-                  Keep your credentials safe and secure. Do not share them with others. <br></br>
-                  |ဒီထဲက Email နဲ့ password များကိုတခြားသူကိုမရှဲပါနဲ့ screen shot ထားပြီးမိမိဖုန်းမှာသေချာသိမ်းထားပါ
-                </p>
+                 {/* Security Warning */}
+                <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+                  <p className="text-sm text-center text-red-400">
+                    <span className="block font-semibold mb-1">⚠️ Security Warning</span>
+                    Keep your credentials safe and secure. Do not share them with others.<br />
+                    ဒီထဲက Email နဲ့ password များကိုတခြားသူကိုမရှဲပါနှင့်
+                  </p>
+                </div>
 
                 {/* Return Home Button */}
                 <div className="mt-6 text-center">

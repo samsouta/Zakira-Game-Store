@@ -1,15 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { FormData } from '../../types/auth';
+import type { AdminResponse, FormData } from '../../types/auth';
+import type { UserResponse } from '../../types/UserType';
 
 interface AuthResponse {
   success: boolean;
   message: string;
   token?: string;
   user?: {
-    id: string;
+    id: number;
     username: string;
     email?: string;
     phone_number?: string;
+    is_admin: number;
+    is_online: number;
+    wallet_amount: string;
+    is_banned: number;
+    ban_reason: string | null;
+    email_verified_at: string | null;
   };
 }
 
@@ -80,7 +87,39 @@ export const authApi = createApi({
       invalidatesTags: ['Auth'], // Invalidate auth-related cache
     }),
 
+    /**
+     * GET admin status
+     */
+    getAdminStatus: builder.query<AdminResponse, void>({
+      query: () => ({
+        url: `admin-status`,
+        method: 'GET',
+      }),
+      providesTags: ['Auth'], // Provide auth-related cache tag
+    }),
+
+    /**
+     * GET User By id
+     */
+    getUserById: builder.query<UserResponse, {id: number, token: string}>({
+      query: ({id, token}) => ({
+        url: `user/${id}`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }),
+      providesTags: ['Auth'],
+    }),
+
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useLogOutMutation, useResetPasswordPhoneMutation } = authApi;
+export const { 
+  useRegisterMutation, 
+  useLoginMutation, 
+  useLogOutMutation, 
+  useResetPasswordPhoneMutation ,
+  useGetAdminStatusQuery,
+  useGetUserByIdQuery
+} = authApi;

@@ -5,6 +5,7 @@ interface ServiceType {
   serviceId: number | null;
   serviceName: string | null;
   description: string | null;
+  productType: string | null;
 }
 
 interface ServicePayload {
@@ -12,13 +13,15 @@ interface ServicePayload {
   game_id: number;
   name: string;
   desc: string;
+  product_type: string;
 }
 
 const initialState: ServiceType = {
   gameId: localStorage.getItem('gameId') ? Number(localStorage.getItem('gameId')) : null,
   serviceId: localStorage.getItem('serviceId') ? Number(localStorage.getItem('serviceId')) : null,
   serviceName: localStorage.getItem('serviceName') || null,
-  description: localStorage.getItem('description') || null
+  description: localStorage.getItem('description') || null,
+  productType: localStorage.getItem('productType') || null,
 };
 
 export const servicesSlice = createSlice({
@@ -30,11 +33,13 @@ export const servicesSlice = createSlice({
             state.serviceId = action.payload.service_id;
             state.serviceName = action.payload.name;
             state.description = action.payload.desc;
+            state.productType = action.payload.product_type;
             
             localStorage.setItem('gameId', action.payload.game_id.toString());
             localStorage.setItem('serviceId', action.payload.service_id.toString());
             localStorage.setItem('serviceName', action.payload.name);
             localStorage.setItem('description', action.payload.desc);
+            localStorage.setItem('productType', action.payload.product_type);
         },
     }
 })

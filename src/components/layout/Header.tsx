@@ -150,28 +150,48 @@ export const Header = () => {
   const dispatch = useDispatch();
   const [deleteMessage, { isLoading: deleteMessageLoading }] = useDeleteMessageMutation();
 
+
+
   /**
    * Listen for real-time user updates via WebSocket
    * Uses Laravel Echo to subscribe to the 'users' channel
    * Logs updated user data when '.UserUpdated' event is received
    */
   useEffect(() => {
-    fetch(`${BaseUrl}user/${Info?.id}`)
-      .then(res => res.json())
+    // Add guard clause to prevent fetch when Info?.id or token is missing
+    if (!Info?.id || !token) {
+      console.log('Missing user ID or token, skipping fetch');
+      return;
+    }
+
+    fetch(`${BaseUrl}user/${Info?.id}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(data => {
         setUser(data.data);
       })
       .catch(err => console.error('❌ Fetch error:', err));
 
-    // 2) Listen to Public WebSocket Channel
+    // 2) Listen to private WebSocket Channel
     const channel = echo.private(`user.${Info?.id}`);
 
     // 3) Listen to 'UserUpdated' event
-    channel.listen('.user.refilled', (e: any) => {
-      setUser(e.user);
+    channel.listen('.user.updated', (e: any) => {
+      if (e.updateType === 'wallet') {
+        setUser(e.user);
+      }
     });
 
-    // send user notification 
+    // 4) Listen to 'UserMessageSent' event
     channel.listen('.user.message.sent', (e: any) => {
       // Update RTK Query cache with new message
       dispatch(
@@ -195,23 +215,15 @@ export const Header = () => {
 
     })
 
-
-
-    // 4) Log socket connection status
-    // echo.connector.pusher.connection.bind('connected', () => {
-    //   console.log('✅ WebSocket connected successfully!');
-    // });
-
-    // echo.connector.pusher.connection.bind('error', (err: any) => {
-    //   console.error('❌ WebSocket connection error:', err);
-    // });
+ 
 
     // 5) Cleanup
     return () => {
       echo.leave(`user.${Info.id}`);;
     };
 
-  }, [Info?.id, dispatch]);
+  }, [Info?.id, dispatch, token]);
+
 
 
   // Handle scroll lock
@@ -283,7 +295,7 @@ export const Header = () => {
     }
 
     try {
-      const response = await makeUnread({
+      await makeUnread({
         messageId: Number(id),
         token: token || ''
       }).unwrap();
@@ -397,7 +409,7 @@ export const Header = () => {
                     <h3 className="text-md oxanium font-semibold liquid-glass-text tracking-tight
                  bg-gradient-to-tr from-blue-500 to-purple-500 bg-clip-text text-transparent
                   ">
-                      Zakari
+                      Game Store
                     </h3>
                     {/* <p className="text-xs opacity-60 liquid-glass-text">
                   Premium Gaming Experience
@@ -775,7 +787,7 @@ export const Header = () => {
         onConfirm={() => pendingDeleteId && DeleteMessage(pendingDeleteId)}
         isDark={isDarkMode}
         title="Delete Message"
-        message="This action can’t be undone . | ဖျက်သွားရင် ပြန်မရတော့ဘူး။"
+        message="ဖျက်ပြီးသွားရင် ,သူမလိုမျိုးပြန်မလာတော့ဘူး....👀"
       />
     </>
   );

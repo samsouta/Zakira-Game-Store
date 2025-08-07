@@ -50,6 +50,29 @@ const AccountProductCard: React.FC<AccountProductCardProps> = ({ pkg }) => {
             </div>
           )}
 
+          {/* Sold out Badge */}
+          {pkg.is_sold && (
+            <div className="absolute inset-0 flex items-center justify-center z-30">
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+              <div className="relative flex flex-col items-center gap-3 transform scale-110">
+                <div className="backdrop-blur-xl bg-white/10 border-2 border-red-500/50 text-white rounded-2xl px-6 py-3 flex items-center gap-3 shadow-[0_0_30px_rgba(255,0,0,0.2)]">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-50" />
+                    <div className="relative w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">!</span>
+                    </div>
+                  </div>
+                  <span className="font-bold text-base tracking-wider uppercase">
+                    Sold Out
+                  </span>
+                </div>
+                <p className="text-white/80 text-sm animate-pulse">
+                  Check back later for availability
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Main Content */}
           <div className="relative z-10">
             {/* Image Section */}
@@ -218,6 +241,29 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
             </div>
           ) : null}
 
+          {/* Sold out Badge */}
+          {pkg.is_sold && (
+            <div className="absolute inset-0 flex items-center justify-center z-30 rounded-lg overflow-hidden">
+              <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
+              <div className="relative flex flex-col items-center gap-2">
+                <div className="bg-white/10 border border-red-500/50 text-white rounded-lg px-3 py-1.5 flex items-center gap-2">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-50" />
+                    <div className="relative w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-[10px]">!</span>
+                    </div>
+                  </div>
+                  <span className="font-bold text-sm tracking-wide uppercase">
+                    Sold Out
+                  </span>
+                </div>
+                <p className="text-white/80 text-xs animate-pulse px-2 text-center">
+                  Check back later
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Content */}
           <div className="space-y-2">
             {/* Product Image */}
@@ -230,21 +276,21 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
             </div>
 
             {/* Product Name */}
-            <h3 className=" md:text-sm text-xs font-medium oxanium text-center line-clamp-1">
+            <h3 className="md:text-sm text-xs font-medium oxanium text-center line-clamp-1">
               {pkg?.name}
             </h3>
 
             {/* Diamond Amount */}
             <div className="flex items-center justify-center gap-1">
               <Gem className="w-3 h-3 text-blue-400" />
-              <span className=" font-bold text-base">
+              <span className="font-bold text-base">
                 {pkg?.data?.amount?.toLocaleString()}
               </span>
             </div>
 
             {/* Price */}
             <div className="text-center">
-              <div className=" font-bold text-sm">
+              <div className="font-bold text-sm">
                 MMK {Math.floor(Number(pkg.price))}
               </div>
             </div>
@@ -252,7 +298,7 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
             {/* Purchase Button */}
             <button
               onClick={HandleUserGameInfo}
-              className="w-full py-2 px-3 rounded-lg text-xs font-medium  bg-gradient-to-r from-blue-500 to-purple-500"
+              className="w-full py-2 px-3 rounded-lg text-xs font-medium bg-gradient-to-r from-blue-500 to-purple-500"
             >
               <div className="flex items-center justify-center gap-1">
                 <span>Purchase</span>
@@ -262,8 +308,6 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
           </div>
         </div>
       </div>
-
-
 
     </>
   );

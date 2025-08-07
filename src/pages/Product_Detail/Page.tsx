@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { liquidGlassClasses } from '../../style/LiquidGlass';
 import { Loading } from '../../components/UI/Loading';
 import TopUpForm from '../../components/UI/TopUpForm';
+import PageMeta from '../../components/common/PageMeta';
 
 // Animation variants for the main container
 const containerVariants = {
@@ -46,21 +47,22 @@ export const Page = () => {
 
   // Redux selectors for service and game information
   const serviceId = useSelector((state: RootState) => state?.services?.serviceId);
-  const gameId = useSelector((state: RootState) => state?.services?.gameId);
   const serviceName = useSelector((state: RootState) => state?.services?.serviceName);
   const serviceDesc = useSelector((state: RootState) => state?.services?.description);
+  const productType = useSelector((state: RootState) => state?.services?.productType);
 
   // Fetch products data with pagination and service filtering
   const { data: productsData, isLoading: isProductsLoading, error: productsError } = useGetProductsQuery({
     page: Number(page.get('page')) || 1,
-    service_id: serviceId || 0
+    service_id: serviceId || 0,
+    product_type: productType || ''
   });
 
-  // Filter products based on service and game IDs
-  const filteredProducts = productsData?.data?.data?.filter(
-    product => (!serviceId || product?.service_id === serviceId) && 
-               (!gameId || product?.game_id === gameId)
-  );
+  // // Filter products based on service and game IDs
+  // const filteredProducts = productsData?.data?.data?.filter(
+  //   product => (!serviceId || product?.service_id === serviceId) && 
+  //              (!gameId || product?.game_id === gameId)
+  // );
 
   // Loading, error, and empty state handlers
   if (isProductsLoading) {
@@ -91,6 +93,11 @@ export const Page = () => {
 
   return (
     <>
+      <PageMeta
+        title="Zakari - Product Detail"
+        description="Zakari is a game store that sells games and products"
+      />
+
       {/* Main container with liquid glass effect */}
       <div className={`mx-2 overflow-hidden ${liquidGlassClasses?.liquidText}`}>
         <div className="absolute inset-0 pointer-events-none" />
@@ -112,7 +119,7 @@ export const Page = () => {
               animate={{ backgroundPosition: ["0%", "100%", "0%"] }}
               transition={{ duration: 3, repeat: Infinity }}
             >
-              {serviceName?.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())} 
+              {serviceName?.replace(/-/g, ' ').replace(/^./, str => str.toUpperCase())}
             </motion.h1>
             <motion.p
               className="text-xl max-w-2xl mx-auto"
@@ -129,8 +136,8 @@ export const Page = () => {
             <div>
               {/* Account products grid - Responsive layout */}
               <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`}>
-                {filteredProducts
-                  ?.filter(product => !product.is_sold && product.product_type === "account")
+                {productsData?.data?.data
+                  ?.filter(product => product.product_type === "account")
                   ?.map((product) => (
                     <motion.div
                       key={product.id}
@@ -149,8 +156,8 @@ export const Page = () => {
 
               {/* Coin products grid - Responsive layout */}
               <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-6`}>
-                {filteredProducts
-                  ?.filter(product => !product.is_sold && product.product_type === "coin")
+                {productsData?.data?.data
+                  ?.filter(product => product.product_type === "coin")
                   ?.map((product) => (
                     <motion.div
                       key={product.id}
@@ -169,7 +176,7 @@ export const Page = () => {
             </div>
 
             {/* No products found message */}
-            {(!filteredProducts || filteredProducts.length === 0) && (
+            {(!productsData?.data?.data || productsData?.data?.data.length === 0) && (
               <div className={`flex flex-col items-center justify-center py-12 rounded-3xl sm:py-16 lg:py-20 ${liquidGlassClasses?.base} ${liquidGlassClasses?.liquidText}`}>
                 <div className="text-center max-w-md mx-auto px-4">
                   <div className="text-4xl sm:text-5xl lg:text-6xl mb-4 opacity-50">🔍</div>
@@ -205,7 +212,7 @@ export const Page = () => {
         </motion.div>
 
         {/* Pagination section */}
-        <div className="bg-white/30 backdrop-blur-xl mt-10 rounded-3xl border border-white/40 p-4 sm:p-8 lg:p-12 shadow-2xl shadow-black/10">
+        <div className="bg-white/30 backdrop-blur-xl mt-10 mb-5 rounded-3xl border border-white/40 p-4 sm:p-8 lg:p-12 shadow-2xl shadow-black/10">
           <PaginationDemo
             current_Page={productsData?.data?.current_page || 1}
             total_Pages={productsData?.data?.last_page || 1}

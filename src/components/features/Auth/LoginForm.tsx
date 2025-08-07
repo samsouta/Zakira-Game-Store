@@ -53,6 +53,15 @@ export const LoginForm = () => {
   });
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [login, { isLoading }] = useLoginMutation();
+
+  /**
+  * ✅ Helper to redirect and reload
+  */
+  const redirectWithReload = (path: string) => {
+    window.location.replace(path); // replaces history and reloads
+  };
+
+
   /**
    * @validation 
    * @description Validate the form data
@@ -89,11 +98,20 @@ export const LoginForm = () => {
 
       // Handle successful registration
       if (response?.success) {
-        if(response?.token){
+        if (response?.token) {
           Cookies.set('token', response?.token, { expires: 7 });
           Cookies.set('user', JSON.stringify(response?.user), { expires: 7 });
         }
-        window.location.reload();
+        // ✅ Check is_admin from response.user
+        const isAdmin = Boolean(response.user?.is_admin);
+
+        // ✅ Redirect
+        if (isAdmin) {
+          redirectWithReload('/dashboard'); 
+        } else {
+          redirectWithReload('/home'); 
+        }
+
 
       }
     } catch (error: any) {
@@ -102,14 +120,6 @@ export const LoginForm = () => {
         ...prev,
         submit: error.data?.message || 'Registration failed. Please try again.',
       }));
-    }
-
-    // Check for admin (simple demo logic)
-    const isAdmin =
-      formData.email?.toLowerCase().includes("admin") ||
-      formData.phone_number?.includes("0000");
-    if (isAdmin) {
-      console.log("Admin login detected");
     }
 
   };
@@ -262,7 +272,7 @@ export const LoginForm = () => {
       {/* Forgot Password Modal */}
       {showForgotPassword && (
         <ForgotPasswordModal
-          onClose ={() => setShowForgotPassword(false)}
+          onClose={() => setShowForgotPassword(false)}
         />
       )}
 

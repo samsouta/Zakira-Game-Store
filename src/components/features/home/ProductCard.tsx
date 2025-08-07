@@ -12,19 +12,19 @@ export const ProductCard = (props: GameType) => {
   /**
    * @function handle routes
    */
-  const handleProductCard = (name: string, service_id: number, game_id: number, desc: string) => {
+  const handleProductCard = (name: string, service_id: number, game_id: number, desc: string , product_type: string) => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    dispatch(setServiceData({ service_id , game_id , name , desc }));
+    dispatch(setServiceData({ service_id , game_id , name , desc , product_type }));
     router(`/detail/${name.toLowerCase().replace(/\s+/g, '-')}`);
   };
   return (
     <>
       <div
         className="group max-w-[100px] cursor-pointer h-auto text-[var(--glass-light-text)] dark:text-[var(--glass-dark-text)]"
-        onClick={() => handleProductCard(props.slug, Number(props?.service_id) , Number(props?.id) , props?.name)}
+        onClick={() => handleProductCard(props.slug, Number(props?.service_id) , Number(props?.id) , props?.name , props?.products?.[0]?.product_type)}
       >
         <motion.div
           initial={{ opacity: 0, y: 50 }}

@@ -12,3 +12,14 @@ export interface FormData {
   }
 
 
+export interface AdminResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: number;
+    username: string;
+    is_online: boolean;
+  }[];
+}
+
+

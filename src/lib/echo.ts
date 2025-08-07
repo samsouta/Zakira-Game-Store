@@ -2,6 +2,12 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import Cookies from 'js-cookie';
 
+declare global {
+  interface Window {
+    Pusher: typeof Pusher;
+  }
+}
+
 window.Pusher = Pusher;
 const token = Cookies.get('token');
 const echo = new Echo({
@@ -12,20 +18,14 @@ const echo = new Echo({
   wsPort: Number(import.meta.env.VITE_PUSHER_PORT),
   forceTLS: false,
   disableStats: true,
-  enabledTransports: ['ws'],
-  authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+  enabledTransports: ['ws', 'wss'],
+  authEndpoint: import.meta.env.VITE_AUTH_ENDPOINT,
   auth: {
     headers: {
       'Authorization': `Bearer ${token}`,
       // 'Accept': 'application/json',
     },
   },
-  // auth: {
-        // headers: {
-        //     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        //     'Accept': 'application/json',
-        // },
-  //   },
 });
 
 export default echo;

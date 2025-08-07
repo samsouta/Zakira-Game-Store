@@ -1,44 +1,93 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "../components/layout/Layout";
 import { Home } from "../pages/Home";
-import { Dashboard } from "../pages/Dashboard";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
 import { Page } from "../pages/Product_Detail/Page";
-import PublicRoute from "./guard/PublicRoute";
 import { Order } from "../pages/Order";
-import OrderGuard from "./guard/OrderGuard";
 import { User } from "../pages/user/User";
-import UserGuard from "./guard/UserGuard";
 import NotFount from "../pages/NotFount";
+import ProtectedRoute from "./guard/ProtectedRoute";
+import PublicRoute from "./guard/PublicRoute";
+import UnauthenticatedGuard from "./guard/UnauthenticatedGuard";
+import Banned from "../pages/banned/Banned";
+import BannedOnlyRoute from "./guard/BannedOnlyRoute";
+import { PrivacyPolicy } from "../pages/PrivacyPolicy";
+import { TermsOfService } from "../pages/TermsOfService";
+import { SecurityPolicy } from "../pages/SecurityPolicy";
+import SearchPage from "../pages/SearchPage";
 
 export const Router = () => {
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/home" replace />} />
-          <Route path="home" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/detail/:name" element={<Page />} />
-          <Route path="/:username" element={<UserGuard><User /></UserGuard>} />
-          <Route path="/order" element={
-            <OrderGuard>
-              <Order />
-            </OrderGuard>
-          } />
+    <Routes>
+      {/* Layout for all pages */}
+      <Route path="/" element={<Layout />}>
 
-          {/* /**
-        * Auth Route
-        */ }
-          <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-        </Route>
+        {/* ✅ Redirect root to /home */}
+        <Route index element={<Navigate to="/home" replace />} />
 
-        {/* //404  */}
-        <Route path="/404" element={<NotFount />} />
+        {/* ✅ User-only pages */}
+        <Route
+          path="home"
+          element={
+            <ProtectedRoute userOnly>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="detail/:name"
+          element={
+            <ProtectedRoute userOnly>
+              <Page />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="order"
+          element={
+            <ProtectedRoute userOnly requireOrder>
+              <UnauthenticatedGuard>
+                <Order />
+              </UnauthenticatedGuard>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path=":username"
+          element={
+            <ProtectedRoute userOnly matchUsername>
+              <UnauthenticatedGuard>
+                <User />
+              </UnauthenticatedGuard>
+            </ProtectedRoute>
+          }
+        />
 
-      </Routes>
-    </>
+        <Route path="/search" element={<SearchPage />} />
+
+        {/* ✅ Auth pages (no auth required) */}
+        <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="register" element={<PublicRoute><Register /></PublicRoute>} />
+
+
+      </Route>
+
+      {/* ✅ 404 Page */}
+      <Route path="/404" element={<NotFount />} />
+      <Route path="*" element={<NotFount />} />
+
+      {/* ✅ Banned page */}
+      <Route path="/banned" element={<BannedOnlyRoute><Banned /></BannedOnlyRoute>} />
+
+      {/* ✅ Privacy Policy page */}
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+      {/* ✅ Terms of Service page */}
+      <Route path="/terms-of-service" element={<TermsOfService />} />
+
+      {/* ✅ Security Policy page */}
+      <Route path="/security-policy" element={<SecurityPolicy />} />
+    </Routes>
   );
 };

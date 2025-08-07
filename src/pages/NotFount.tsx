@@ -69,20 +69,20 @@ export const NotFount = () => {
 
         {/* Message */}
         <GlassMorphCard className="p-6 md:p-8 mb-8">
-          <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 animate-fadeIn">
+          <h2 className="text-2xl md:text-4xl font-bold  mb-4 animate-fadeIn">
             Oops! Page Not Found
           </h2>
-          <p className="text-gray-300 text-lg md:text-xl mb-6 leading-relaxed animate-fadeIn" style={{ animationDelay: '0.2s' }}>
+          <p className=" opacity-60 text-lg md:text-xl mb-6 leading-relaxed animate-fadeIn" style={{ animationDelay: '0.2s' }}>
             Our robot couldn't find what you're looking for. Don't worry, it happens to the best of us!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fadeIn" style={{ animationDelay: '0.4s' }}>
             <button
               onClick={() => navigate('/')}
-              className="group relative px-8 py-4 bg-gradient-to-r from-sky-400 to-purple-400 text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl w-full sm:w-auto"
+              className="group relative px-8 py-4 bg-gradient-to-r from-sky-400 to-purple-400  font-semibold rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-xl w-full sm:w-auto"
             >
               <span className="relative z-10">Home</span>
             </button>
-            <button className="group relative px-8 py-4 backdrop-blur-xl bg-white/10 border border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-white/20 w-full sm:w-auto">
+            <button className="group relative px-8 py-4 backdrop-blur-xl bg-white/10 border border-white/20  font-semibold rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-white/20 w-full sm:w-auto">
               <span className="relative z-10">Search</span>
             </button>
           </div>
@@ -100,7 +100,7 @@ export const NotFount = () => {
               <div className={`text-2xl md:text-3xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
                 {stat.value}
               </div>
-              <div className="text-gray-400 text-sm md:text-base">{stat.label}</div>
+              <div className=" opacity-60 text-sm md:text-base">{stat.label}</div>
             </GlassMorphCard>
           ))}
         </div>

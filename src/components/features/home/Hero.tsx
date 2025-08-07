@@ -2,11 +2,14 @@ import { motion } from "framer-motion";
 import { Star, BellDot, MessageCircle } from "lucide-react";
 import { CommentModal } from "./CommentModal";
 import { ReviewModal } from "./ReviewModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { liquidGlassClasses } from "../../../style/LiquidGlass";
 import { useAuth } from "../../../hook/useAuth";
 import { LiquidModal } from "../../UI/NotiModal/LiquidModal";
 import type { NotificationType } from "../../../types/notiModelType";
+import echo from "../../../lib/echo";
+import { useGetAdminStatusQuery } from "../../../services/API/Auth";
+import { useGetActivePromotionQuery } from "../../../services/API/promotionApi";
 
 const demos = [
   {
@@ -24,13 +27,38 @@ export const Hero = () => {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [activeModal, setActiveModal] = useState<NotificationType | null>(null);
+  const [isAdminOnline, setIsAdminOnline] = useState<boolean | null>(null);
   const { isAuthenticated } = useAuth();
+  const { data } = useGetAdminStatusQuery();
+  const admin = data?.data?.[0]; 
+  const adminId = admin?.id;
+  const { data: promotionData } = useGetActivePromotionQuery();
+  
+  /**
+   * @useEffect 
+   *  Real-time fetch and listen to user online status
+   */
+  useEffect(() => {
+    if (!adminId) return;
 
+    // ✅ Set initial online status once admin is fetched
+    setIsAdminOnline(admin?.is_online);
+
+    const channel = echo.channel('admin.status');
+
+    channel.listen('.status.changed', (e: any) => {
+        setIsAdminOnline(e.is_online);
+
+    });
+
+    return () => {
+      echo.leaveChannel('admin.status');
+    };
+  }, [adminId]);
 
   /**
    * @function Handle Comment Modal 
    */
-
   const handleCommentModal = () => {
     if (isAuthenticated) {
       setIsCommentModalOpen(true)
@@ -42,7 +70,7 @@ export const Hero = () => {
   return (
     <>
       <div
-        className={` rounded-[32px] relative overflow-hidden mb-10 mx-1`}
+        className={` rounded-[32px] relative overflow-hidden mx-1`}
       >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
@@ -68,7 +96,7 @@ export const Hero = () => {
           ))}
         </div>
 
-        <div className="relative z-10 w-full mx-auto px-2 pb-16">
+        <div className="relative z-10 w-full mx-auto px-2 pb-6">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
             {/* Left Content */}
             <motion.div
@@ -81,16 +109,42 @@ export const Hero = () => {
             >
               {/* Floating Sale Badge */}
               <motion.div
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="inline-block bg-[var(--amber)] px-3 py-2 md:px-4 md:py-2 rounded-full font-bold text-xs md:text-sm mb-4 md:mb-6 shadow-lg"
+                animate={{
+                  rotate: [0, 3, -3, 0],
+                  scale: [1, 1.02, 1]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 
+                  px-4 py-2.5 sm:px-5 sm:py-3 rounded-full font-medium text-sm sm:text-base 
+                  mb-6 shadow-lg hover:shadow-amber-500/20 transition-shadow
+                  backdrop-blur-sm backdrop-filter"
               >
-                <BellDot className="inline w-5 h-5 md:w-7 md:h-7 mr-1 text-green-600" />
-                Admin{" "}
-                <span className="oxanium text-green-500 text-lg md:text-xl">
-                  Online
-                </span>{" "}
-                Now
+                <div className="relative">
+                  <BellDot className={`w-5 h-5 sm:w-6 sm:h-6 ${isAdminOnline ? 'text-emerald-600' : 'text-red-500'}`} />
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.5, 1, 0.5]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity
+                    }}
+                    className={`absolute -top-1 -right-1 w-2 h-2 ${isAdminOnline ? 'bg-emerald-500' : 'bg-red-500'} rounded-full`}
+                  />
+                </div>
+                <span className="font-semibold">Admin</span>
+                <span className={`oxanium font-bold 
+                  ${isAdminOnline
+                    ? 'text-emerald-600'
+                    : 'text-red-500'
+                  }`}>
+                  {isAdminOnline ? 'Online' : 'Offline'}
+                </span>
               </motion.div>
 
               <motion.h1
@@ -173,9 +227,9 @@ export const Hero = () => {
             <div className="md:col-span-5 md:order-2">
               <div className="w-full max-w-sm md:max-w-md lg:w-96 lg:h-96 mx-auto overflow-hidden rounded-3xl aspect-square">
                 <img
-                  className="w-full h-full object-cover object-center"
-                  src="https://i.pinimg.com/736x/f5/e7/8c/f5e78ce820654f0f6101469b0a66ff19.jpg"
-                  alt="Game Store Product"
+                  className="w-full h-full object-fill object-center"
+                  src={promotionData?.data?.image_url}
+                  alt={promotionData?.data?.title}
                 />
               </div>
             </div>

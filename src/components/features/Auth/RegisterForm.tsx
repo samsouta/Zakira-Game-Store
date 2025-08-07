@@ -69,7 +69,7 @@ function RegisterForm() {
    */
   const validateForm = (): boolean => {
     const newErrors: ValidationErrors = {};
-
+    
     if (!formData.username || formData.username.length > 50) {
       newErrors.username = formData.username
         ? "Username must be 50 characters or less"
