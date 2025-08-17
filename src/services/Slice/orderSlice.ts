@@ -6,6 +6,7 @@ interface OrderDetail {
   image: string;
   title: string;
   totalPrice: number;
+  service_id: number;
   game_uid : string;
   game_server: string;
 }

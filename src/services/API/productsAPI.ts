@@ -14,13 +14,13 @@ export const ProductsAPI = createApi({
     /**
  * Get all Products (with optional filters)
  */
-    getProducts: builder.query<ProductsResponse, { page?: number; service_id?: number; product_type?: string; }>({
-      query: ({ page = 1, service_id, product_type }) => {
+    getProducts: builder.query<ProductsResponse, { page?: number; service_id?: number; game_slug?: string; }>({
+      query: ({ page = 1, service_id, game_slug }) => {
         const params = new URLSearchParams();
 
         params.set('page', page.toString());
         if (service_id !== undefined) params.set('service_id', service_id.toString());
-        if (product_type) params.set('product_type', product_type);
+        if (game_slug) params.set('game_slug', game_slug);
 
         return {
           url: `products?${params.toString()}`,

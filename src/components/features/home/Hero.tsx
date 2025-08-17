@@ -9,7 +9,7 @@ import { LiquidModal } from "../../UI/NotiModal/LiquidModal";
 import type { NotificationType } from "../../../types/notiModelType";
 import echo from "../../../lib/echo";
 import { useGetAdminStatusQuery } from "../../../services/API/Auth";
-import { useGetActivePromotionQuery } from "../../../services/API/promotionApi";
+import { useGetActivePromotionQuery } from "../../../services/API/promotionAPI";
 
 const demos = [
   {

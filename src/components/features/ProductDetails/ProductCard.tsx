@@ -169,7 +169,8 @@ const AccountProductCard: React.FC<AccountProductCardProps> = ({ pkg }) => {
           title={pkg.name}
           orderDetail={{
             orderId: pkg.id.toString(),
-            orderType: pkg.product_type,
+            orderType: pkg?.game?.name,
+            service_id: pkg?.service_id,
             image: pkg.img_url,
             title: pkg.name,
             totalPrice: Number(pkg.price),
@@ -211,10 +212,11 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
     try {
       dispatch(setDiaData({
         orderId: pkg.id.toString(),
-        orderType: pkg.product_type,
+        orderType: pkg?.game?.name,
         image: pkg.img_url,
         title: pkg.name,
         totalPrice: Number(pkg.price),
+        service_id: pkg?.service_id,
         game_server: '',
         game_uid: '',
       }));
@@ -241,28 +243,6 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
             </div>
           ) : null}
 
-          {/* Sold out Badge */}
-          {pkg.is_sold && (
-            <div className="absolute inset-0 flex items-center justify-center z-30 rounded-lg overflow-hidden">
-              <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" />
-              <div className="relative flex flex-col items-center gap-2">
-                <div className="bg-white/10 border border-red-500/50 text-white rounded-lg px-3 py-1.5 flex items-center gap-2">
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-50" />
-                    <div className="relative w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
-                      <span className="text-white text-[10px]">!</span>
-                    </div>
-                  </div>
-                  <span className="font-bold text-sm tracking-wide uppercase">
-                    Sold Out
-                  </span>
-                </div>
-                <p className="text-white/80 text-xs animate-pulse px-2 text-center">
-                  Check back later
-                </p>
-              </div>
-            </div>
-          )}
 
           {/* Content */}
           <div className="space-y-2">

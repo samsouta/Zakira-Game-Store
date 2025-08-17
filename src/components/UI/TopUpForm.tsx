@@ -48,6 +48,7 @@ const handleSubmit = async (e: React.FormEvent) => {
       image: pkg.image || '',
       title: pkg.title || '',
       totalPrice: Number(pkg.totalPrice || 0),
+      service_id: pkg?.service_id,
       game_server: serverId, 
       game_uid: gameId
     }));

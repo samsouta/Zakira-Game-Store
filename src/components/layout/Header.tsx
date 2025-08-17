@@ -604,6 +604,16 @@ export const Header = () => {
                         </button>
 
                         <button
+                          onClick={() => {
+                            router('/top-up');
+                            setIsMenuOpen(false);
+                            
+                          }}
+                          className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                          <span>💰</span> Top Up
+                        </button>
+
+                        <button
                           onClick={HandleUserSetting}
                           className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
                           <span>⚙️</span> Acount Settings

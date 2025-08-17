@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import {
   Facebook,
-  Twitter,
   MapPin,
 } from "lucide-react";
 import { FaTelegram } from "react-icons/fa";
@@ -26,9 +25,9 @@ export const Footer = () => {
             </p>
             <div className="flex space-x-4">
               {[
-                { icon: Facebook, link: "https://www.facebook.com/zakari.gamestore" },
+                { icon: Facebook, link: "https://www.facebook.com/profile.php?id=61566639074227" },
                 { icon: FaTelegram, link: "https://t.me/ZakarixCage" },
-                { icon: IoLogoTiktok, link: "https://www.tiktok.com/@zakarigamestore" }
+                { icon: IoLogoTiktok, link: "https://www.tiktok.com/@zakari.game.store?lang=en" }
               ].map(({ icon: Icon, link }, i) => (
                 <motion.a
                   key={i}

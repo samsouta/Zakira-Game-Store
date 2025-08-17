@@ -20,6 +20,7 @@ export type ProductData = {
     amount: number;
   };
   discount_percent: number;
+  game : GameType;
 }
 
 export type PaginationData = {

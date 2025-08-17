@@ -16,6 +16,7 @@ interface PreviewSlidePropt {
   orderDetail: {
     orderId: string;
     orderType: string;
+    service_id: number;
     image: string;
     title: string;
     totalPrice: number;

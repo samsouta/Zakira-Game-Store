@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { AdminResponse, FormData } from '../../types/auth';
 import type { UserResponse } from '../../types/UserType';
+import type { UploadResponse } from '../../types/FileType';
+import type { TopUpOrder, TopUpOrderResponse } from '../../types/OrderType';
 
 interface AuthResponse {
   success: boolean;
@@ -101,8 +103,8 @@ export const authApi = createApi({
     /**
      * GET User By id
      */
-    getUserById: builder.query<UserResponse, {id: number, token: string}>({
-      query: ({id, token}) => ({
+    getUserById: builder.query<UserResponse, { id: number, token: string }>({
+      query: ({ id, token }) => ({
         url: `user/${id}`,
         method: 'GET',
         headers: {
@@ -112,14 +114,74 @@ export const authApi = createApi({
       providesTags: ['Auth'],
     }),
 
+    /**
+     * File Upload
+     */
+    fileUpload: builder.mutation<UploadResponse, { file: File; token: string }>({
+      query: ({ file, token }) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        return {
+          url: 'uploads',
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      },
+      invalidatesTags: ['Auth'],
+    }),
+
+    /**
+     * Top Up Order 
+     */
+    topUpOrder: builder.mutation<TopUpOrderResponse, { amount: number; paymentMethod: string; receipt_id: string; token: string }>({
+      query: ({ amount, paymentMethod, receipt_id, token }) => {
+        return {
+          url: 'topup-orders',
+          method: 'POST',
+          body: {
+            amount,
+            payment_method: paymentMethod,
+            upload_id: receipt_id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      },
+      invalidatesTags: ['Auth'],
+    }),
+
+    /**
+     * Get Top up Order by ID
+     */
+    getTopUpOrder: builder.query<TopUpOrder[], string>({
+      query: (token) => ({
+        url: `topup-orders`,
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ['Auth'],
+    }),
+
+
+
   }),
 });
 
-export const { 
-  useRegisterMutation, 
-  useLoginMutation, 
-  useLogOutMutation, 
-  useResetPasswordPhoneMutation ,
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useLogOutMutation,
+  useResetPasswordPhoneMutation,
   useGetAdminStatusQuery,
-  useGetUserByIdQuery
+  useGetUserByIdQuery,
+  useFileUploadMutation,
+  useTopUpOrderMutation,
+  useGetTopUpOrderQuery
 } = authApi;

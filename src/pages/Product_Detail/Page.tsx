@@ -49,20 +49,15 @@ export const Page = () => {
   const serviceId = useSelector((state: RootState) => state?.services?.serviceId);
   const serviceName = useSelector((state: RootState) => state?.services?.serviceName);
   const serviceDesc = useSelector((state: RootState) => state?.services?.description);
-  const productType = useSelector((state: RootState) => state?.services?.productType);
+  const slug = useSelector((state: RootState) => state?.services?.slug);
 
   // Fetch products data with pagination and service filtering
   const { data: productsData, isLoading: isProductsLoading, error: productsError } = useGetProductsQuery({
     page: Number(page.get('page')) || 1,
     service_id: serviceId || 0,
-    product_type: productType || ''
+    game_slug: slug || ''
   });
 
-  // // Filter products based on service and game IDs
-  // const filteredProducts = productsData?.data?.data?.filter(
-  //   product => (!serviceId || product?.service_id === serviceId) && 
-  //              (!gameId || product?.game_id === gameId)
-  // );
 
   // Loading, error, and empty state handlers
   if (isProductsLoading) {
@@ -134,45 +129,53 @@ export const Page = () => {
           {/* Products display section */}
           <div className="relative z-10 w-full max-w-7xl mx-auto">
             <div>
-              {/* Account products grid - Responsive layout */}
-              <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`}>
-                {productsData?.data?.data
-                  ?.filter(product => product.product_type === "account")
-                  ?.map((product) => (
-                    <motion.div
-                      key={product.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }}
-                      className="w-full h-full"
-                    >
-                      <AccountProductCard pkg={product} />
-                    </motion.div>
-                  ))}
-              </div>
+              {/* Account Card  */}
+              {
+                serviceName?.toLowerCase().replace(" ", "-") === "account" &&
+                (
+                  <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`}>
+                    {productsData?.data?.data
+                      ?.map((product) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: 0.5,
+                            ease: "easeOut"
+                          }}
+                          className="w-full h-full"
+                        >
+                          <AccountProductCard pkg={product} />
+                        </motion.div>
+                      ))}
+                  </div>
+                )
+              }
 
-              {/* Coin products grid - Responsive layout */}
-              <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-6`}>
-                {productsData?.data?.data
-                  ?.filter(product => product.product_type === "coin")
-                  ?.map((product) => (
-                    <motion.div
-                      key={product.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }}
-                      className="w-full h-full"
-                    >
-                      <DiamondProductCard onOpen={() => setIsPreview(true)} pkg={product} />
-                    </motion.div>
-                  ))}
-              </div>
+              {/* Coin Card */}
+              {
+                serviceName?.toLowerCase().replace(" ", "-") === "coin" && (
+                  <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-6`}>
+                    {productsData?.data?.data
+                      ?.map((product) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: 0.5,
+                            ease: "easeOut"
+                          }}
+                          className="w-full h-full"
+                        >
+                          <DiamondProductCard onOpen={() => setIsPreview(true)} pkg={product} />
+                        </motion.div>
+                      ))}
+                  </div>
+                )
+
+              }
             </div>
 
             {/* No products found message */}

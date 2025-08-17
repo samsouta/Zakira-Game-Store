@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setServiceData } from "../../../services/Slice/servicesSlice";
-import type {  GameType } from "../../../types/ProductType";
+import type { GameType } from "../../../types/ProductType";
 
 
 export const ProductCard = (props: GameType) => {
@@ -12,19 +12,37 @@ export const ProductCard = (props: GameType) => {
   /**
    * @function handle routes
    */
-  const handleProductCard = (name: string, service_id: number, game_id: number, desc: string , product_type: string) => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    dispatch(setServiceData({ service_id , game_id , name , desc , product_type }));
-    router(`/detail/${name.toLowerCase().replace(/\s+/g, '-')}`);
-  };
+const handleProductCard = (
+  game_name: string,
+  service_name: string,
+  service_id: number,
+  game_id: number,
+  desc: string,
+  slug: string
+) => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+  
+  dispatch(
+    setServiceData({
+      game_id,
+      service_id,
+      service_name,
+      game_name,
+      desc,
+      slug,
+    })
+  );
+
+  router(`/detail/${service_name?.toLowerCase().replace(/\s+/g, '-')}/${slug}`);
+};
   return (
     <>
       <div
         className="group max-w-[100px] cursor-pointer h-auto text-[var(--glass-light-text)] dark:text-[var(--glass-dark-text)]"
-        onClick={() => handleProductCard(props.slug, Number(props?.service_id) , Number(props?.id) , props?.name , props?.products?.[0]?.product_type)}
+        onClick={() => handleProductCard(props.slug, props?.service?.name ,Number(props?.service_id), Number(props?.id), props?.name, props?.slug)}
       >
         <motion.div
           initial={{ opacity: 0, y: 50 }}

@@ -4,12 +4,11 @@ import type { PromotionResponse } from '../../types/promotionType';
 const BaseUrl = import.meta.env.VITE_API_BASE;
 
 
-export const PromotionAPI = createApi({
+export const promotionAPI = createApi({
     reducerPath: 'promotion',
     baseQuery: fetchBaseQuery({ baseUrl: BaseUrl }),
     tagTypes: ['promotion'],
     endpoints: (builder) => ({
-
 
     /**
      * Get Active Promotion banner 
@@ -30,4 +29,4 @@ export const PromotionAPI = createApi({
 
     }),
 })
-export const { useGetActivePromotionQuery } = PromotionAPI;
+export const { useGetActivePromotionQuery } = promotionAPI;

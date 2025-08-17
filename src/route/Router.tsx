@@ -13,9 +13,10 @@ import UnauthenticatedGuard from "./guard/UnauthenticatedGuard";
 import Banned from "../pages/banned/Banned";
 import BannedOnlyRoute from "./guard/BannedOnlyRoute";
 import { PrivacyPolicy } from "../pages/PrivacyPolicy";
-import { TermsOfService } from "../pages/TermsOfService";
 import { SecurityPolicy } from "../pages/SecurityPolicy";
 import SearchPage from "../pages/SearchPage";
+import { TopUp } from "../pages/TopUp";
+import TermsOfService from "../pages/TermsOfService";
 
 export const Router = () => {
   return (
@@ -36,7 +37,7 @@ export const Router = () => {
           }
         />
         <Route
-          path="detail/:name"
+          path="detail/:serviceName/:name"
           element={
             <ProtectedRoute userOnly>
               <Page />
@@ -60,6 +61,15 @@ export const Router = () => {
               <UnauthenticatedGuard>
                 <User />
               </UnauthenticatedGuard>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="top-up"
+          element={
+            <ProtectedRoute userOnly>
+              <TopUp />
             </ProtectedRoute>
           }
         />

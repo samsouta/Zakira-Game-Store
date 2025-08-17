@@ -1,3 +1,4 @@
+import type { UploadRow } from "./FileType";
 import type { ProductData } from "./ProductType";
 
 export type CreateOrderResponse = {
@@ -41,4 +42,25 @@ export type UserMeta = {
   email: string;
   game_password: string;
   email_password: string;
+};
+
+
+/**
+ * Top UP Type 
+ */
+export type TopUpOrder = {
+  id: number;
+  user_id: number;
+  amount: number;
+  payment_method: string;
+  upload_id: number;
+  upload?: UploadRow;
+  status: string;
+  created_at: string;
+  updated_at: string;
+};
+export type TopUpOrderResponse = {
+  success: boolean;
+  message: string;
+  order?: TopUpOrder;
 };

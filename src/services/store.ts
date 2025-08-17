@@ -9,7 +9,7 @@ import { orderSlice } from './Slice/orderSlice'
 import { orderAPI } from './API/orderAPI'
 import { servicesSlice } from './Slice/servicesSlice'
 import { userSlice } from './Slice/userSlice'
-import { PromotionAPI } from './API/promotionApi'
+import { promotionAPI } from './API/promotionAPI'
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +20,7 @@ export const store = configureStore({
     [ReviewAPI.reducerPath]: ReviewAPI.reducer,
     [messageAPI.reducerPath]: messageAPI.reducer,
     [orderAPI.reducerPath]: orderAPI.reducer,
-    [PromotionAPI.reducerPath]: PromotionAPI.reducer,
+    [promotionAPI.reducerPath]: promotionAPI.reducer,
 
     //Slice 
     order:orderSlice.reducer,
@@ -38,7 +38,7 @@ export const store = configureStore({
       ReviewAPI.middleware,
       messageAPI.middleware,
       orderAPI.middleware,
-      PromotionAPI.middleware,
+      promotionAPI.middleware,
     ),
 })
 
