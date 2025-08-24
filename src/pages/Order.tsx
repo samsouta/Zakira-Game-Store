@@ -25,7 +25,6 @@ export const Order = () => {
   const [makeOrder, { isLoading }] = useMakeOrderMutation();
   const token = Cookies.get('token');
 
-
   /**
    * @function Handle ConfirmOrder 
    */
@@ -46,16 +45,11 @@ export const Order = () => {
           game_password: response?.credentials?.game_password || '',
           email_password: response?.credentials?.email_password || ''
         });
-
-        // remove order data after create successfully order 
         localStorage.removeItem('orderData');
         return;
       }
-
       setIsConfirmed(false)
-
     } catch (error) {
-      // Handle error appropriately
       console.error('Failed to place order:', error);
       setErrorMessage(error?.data?.message || 'Failed to create order. Please try again.');
     }
@@ -69,116 +63,116 @@ export const Order = () => {
         description="Zakari is a game store that sells games and products"
       />
 
-      <div className={`min-h-screen w-full p-2`}>
-        <div className={`relative w-full border rounded-2xl ${liquidGlassClasses?.base} ${liquidGlassClasses?.liquidText} px-2`}>
+      <div className="min-h-screen w-full p-2 md:p-4">
+        <div className={`relative w-full border rounded-2xl ${liquidGlassClasses?.base} ${liquidGlassClasses?.liquidText} px-2 md:px-4`}>
           {/* Header */}
-          <div className="text-center mb-6 mt-6">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-sky-400 to-purple-500 mb-4 shadow-lg">
-              <Package className="w-8 h-8 " />
+          <div className="text-center mb-8 mt-8">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-sky-400 to-purple-500 mb-6 shadow-lg">
+              <Package className="w-10 h-10" />
             </div>
-            <h1 className={`text-2xl sm:text-3xl font-bold mb-2 transition-colors duration-300 oxanium`}>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 oxanium bg-gradient-to-r from-sky-400 to-purple-500 bg-clip-text text-transparent">
               Order Confirmation
             </h1>
-            <p className={`transition-colors duration-300 opacity-70`}>
+            <p className="text-lg md:text-xl opacity-80">
               Your order has been placed successfully!
             </p>
           </div>
 
           {/* Main Card */}
-          <div className={`${liquidGlassClasses?.base} rounded-3xl w-full md:max-w-[500px] md:mx-auto shadow-xl overflow-hidden transition-all duration-300  `}>
+          <div className={`${liquidGlassClasses?.base} rounded-3xl w-full md:max-w-[600px] md:mx-auto shadow-xl overflow-hidden`}>
             {/* Order ID Section */}
-            <div className={`p-6 pb-4 border-b transition-colors duration-300 `}>
+            <div className="p-6 pb-4 border-b">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={`text-sm mb-1 transition-colors duration-300 oxanium`}>
+                  <p className="text-base mb-1 oxanium font-medium">
                     Product ID
                   </p>
-                  <p className={`text-lg font-bold font-mono tracking-wider transition-colors duration-300 `}>
+                  <p className="text-xl font-bold font-mono tracking-wider">
                     {order?.orderId}
                   </p>
                 </div>
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-rose-400 flex items-center justify-center shadow-lg">
-                  <Sparkles className="w-6 h-6 " />
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-rose-400 flex items-center justify-center shadow-lg">
+                  <Sparkles className="w-7 h-7" />
                 </div>
               </div>
             </div>
 
             {/* Product Image */}
-            <div className="p-6 pb-4">
-              <div className={`relative overflow-hidden rounded-2xl backdrop-blur-sm border shadow-lg transition-all duration-300 `}>
+            <div className="p-6">
+              <div className="relative overflow-hidden rounded-2xl backdrop-blur-sm border shadow-lg h-64 md:h-72">
                 <img
                   src={order?.image}
                   alt={order?.title}
-                  className="w-full h-48 sm:h-56 object-cover"
+                  className="w-full h-full object-fill"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
               </div>
             </div>
 
             {/* Product Details */}
-            <div className="px-6 pb-4">
-              <h3 className={`text-xl font-semibold mb-2 transition-colors duration-300 oxanium`}>
+            <div className="px-6 pb-6">
+              <h3 className="text-2xl font-bold mb-3 oxanium bg-gradient-to-r from-sky-400 to-purple-500 bg-clip-text text-transparent">
                 {order?.title}
               </h3>
-              <div className={`flex items-center text-sm mb-4 transition-colors duration-300 `}>
-                <Package className="w-4 h-4 mr-2 oxanium" />
-                <span>Product Type : {order?.orderType}</span>
+              <div className="flex items-center text-base mb-4">
+                <Package className="w-5 h-5 mr-2" />
+                <span className="font-medium">Product Type: {order?.orderType}</span>
               </div>
             </div>
 
             {/* Price Section */}
-            <div className="px-6 pb-6">
-              <div className={`backdrop-blur-sm bg-gradient-to-r border rounded-2xl p-4 transition-all duration-300`}>
+            <div className="px-6 pb-8">
+              <div className="backdrop-blur-sm bg-gradient-to-r from-white/5 to-white/10 border rounded-2xl p-6">
                 {/* Product Price */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
-                    <Package className={`w-5 h-5 mr-2 transition-colors duration-300`} />
-                    <span className={`font-medium transition-colors duration-300`}>
+                    <Package className="w-6 h-6 mr-3 text-sky-400" />
+                    <span className="text-lg font-medium">
                       Product Price
                     </span>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-semibold text-sky-400">
+                    <p className="text-xl font-bold text-sky-400">
                       MMK {order?.totalPrice || 0}
                     </p>
                   </div>
                 </div>
 
                 {/* Service Charge */}
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center">
                     <svg 
-                      className="w-5 h-5 mr-2 text-amber-400"
+                      className="w-6 h-6 mr-3 text-amber-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
-                    <span className={`font-medium transition-colors duration-300`}>
+                    <span className="text-lg font-medium">
                       Service Charge
                     </span>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-semibold text-amber-400">
+                    <p className="text-xl font-bold text-amber-400">
                       MMK 50 
                     </p>
                   </div>
                 </div>
 
                 {/* Divider */}
-                <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-3"></div>
+                <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-4"></div>
 
                 {/* Total Amount */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <CreditCard className={`w-5 h-5 mr-2 transition-colors duration-300`} />
-                    <span className={`font-medium transition-colors duration-300`}>
+                    <CreditCard className="w-6 h-6 mr-3 text-purple-400" />
+                    <span className="text-lg font-medium">
                       Total Amount
                     </span>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-sky-500">
+                    <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-sky-400 to-purple-500 bg-clip-text text-transparent">
                       MMK {Number(order?.totalPrice) + 50}
                     </p>
                   </div>
@@ -191,27 +185,28 @@ export const Order = () => {
               <button
                 onClick={handleConfirmOrder}
                 disabled={isConfirmed || isLoading}
-                className={`w-full py-4 px-6 rounded-2xl font-semibold transform transition-all duration-300 flex items-center justify-center space-x-2  ${isConfirmed
-                  ? 'bg-gradient-to-r from-emerald-500 to-teal-500 scale-95'
-                  : isLoading
-                    ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed'
-                    : 'bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-600'
-                  }`}
+                className={`w-full py-5 px-8 rounded-2xl font-bold text-lg transform transition-all duration-300 flex items-center justify-center space-x-3 ${
+                  isConfirmed
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 scale-95'
+                    : isLoading
+                      ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-600 hover:scale-[1.02]'
+                }`}
               >
                 {isConfirmed ? (
                   <>
-                    <Check className="w-5 h-5" />
+                    <Check className="w-6 h-6" />
                     <span>Order Confirmed!</span>
                   </>
                 ) : isLoading ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
                     <span>Processing...</span>
                   </>
                 ) : (
                   <>
                     <span>Confirm Order</span>
-                    <ArrowRight className="w-5 h-5" />
+                    <ArrowRight className="w-6 h-6" />
                   </>
                 )}
               </button>
@@ -219,10 +214,10 @@ export const Order = () => {
 
             {/* Error Message */}
             {errorMessage && (
-              <div className="mx-auto max-w-[500px] mb-5">
-                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md flex items-center">
-                  <AlertCircle className="w-5 h-5 mr-2" />
-                  <p>{errorMessage}</p>
+              <div className="mx-6 mb-6">
+                <div className="bg-red-500/10 border-l-4 border-red-500 text-red-400 p-4 rounded-lg flex items-center">
+                  <AlertCircle className="w-6 h-6 mr-3" />
+                  <p className="text-base">{errorMessage}</p>
                 </div>
               </div>
             )}
@@ -230,54 +225,54 @@ export const Order = () => {
 
           {/* Service Success Message */}
           {isConfirmed && (
-            serviceName === 'coin' ? (
-              <div className={`mt-6 backdrop-blur-lg bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-3xl p-4 sm:p-6 text-center transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 hover:bg-white/15 dark:hover:bg-black/15 relative overflow-hidden`}>
+            serviceName === 'coin' || serviceName === 'code' ? (
+              <div className={`mt-8 w-full max-w-4xl mx-auto backdrop-blur-lg bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 rounded-3xl p-4 sm:p-6 md:p-8 text-center transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/10 hover:bg-white/15 dark:hover:bg-black/15 relative overflow-hidden`}>
                 {/* Liquid Glass Background Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-teal-500/5 rounded-3xl"></div>
-                <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-xl transform -translate-x-8 -translate-y-8"></div>
-                <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-emerald-500/10 to-transparent rounded-full blur-lg transform translate-x-6 translate-y-6"></div>
+                <div className="absolute top-0 left-0 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-xl transform -translate-x-10 -translate-y-10"></div>
+                <div className="absolute bottom-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-tl from-emerald-500/10 to-transparent rounded-full blur-lg transform translate-x-8 translate-y-8"></div>
 
                 {/* Content Layer */}
                 <div className="relative z-10">
                   {/* Success Icon Animation */}
-                  <div className="relative mb-4 sm:mb-6">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center shadow-xl shadow-emerald-500/25 transform hover:scale-110 transition-all duration-500 hover:shadow-emerald-500/40">
-                      <Check className="w-6 h-6 sm:w-8 sm:h-8 text-white animate-bounce" />
+                  <div className="relative mb-6 sm:mb-8">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center shadow-xl shadow-emerald-500/25 transform hover:scale-110 transition-all duration-500 hover:shadow-emerald-500/40">
+                      <Check className="w-8 h-8 sm:w-10 sm:h-10 text-white animate-bounce" />
                     </div>
                     {/* Ripple Effect */}
-                    <div className="absolute inset-0 w-12 h-12 sm:w-16 sm:h-16 mx-auto rounded-full border-2 border-emerald-500/30 animate-ping"></div>
+                    <div className="absolute inset-0 w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-full border-2 border-emerald-500/30 animate-ping"></div>
                   </div>
 
                   {/* Success Message */}
-                  <div className="space-y-3 sm:space-y-4">
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 bg-clip-text text-transparent leading-tight px-2">
+                  <div className="space-y-4 sm:space-y-6">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 bg-clip-text text-transparent leading-tight px-2">
                       Thank you! Your coin order is being processed.
                     </h3>
 
-                    <div className="p-3 sm:p-4 rounded-2xl backdrop-blur-sm bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-500/20 dark:border-blue-400/20 hover:from-blue-500/10 hover:to-purple-500/10 transition-all duration-300">
-                      <p className="text-sm sm:text-base md:text-lg text-blue-600 dark:text-blue-400 mb-2 font-medium">
+                    <div className="p-4 sm:p-5 rounded-2xl backdrop-blur-sm bg-gradient-to-r from-blue-500/5 to-purple-500/5 border border-blue-500/20 dark:border-blue-400/20 hover:from-blue-500/10 hover:to-purple-500/10 transition-all duration-300">
+                      <p className="text-lg sm:text-xl text-blue-400 mb-3 font-medium">
                         Please wait while we process your coin transfer.
                       </p>
-                      <div className="text-xs sm:text-sm md:text-base text-amber-600 dark:text-yellow-400 bg-gradient-to-r from-yellow-400/10 to-amber-400/10 backdrop-blur-sm px-3 sm:px-4 py-2 rounded-xl border border-yellow-400/30 dark:border-yellow-400/20">
+                      <div className="text-base sm:text-lg text-amber-400 bg-gradient-to-r from-yellow-400/10 to-amber-400/10 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-xl border border-yellow-400/30 dark:border-yellow-400/20">
                         သင့် order တင်ပြီးပါပြီ မိနစ်အနည်းငယ်စောင့်ဆိုင်းပေးပါ
                       </div>
                     </div>
                   </div>
 
                   {/* Enhanced Processing Animation */}
-                  <div className="flex justify-center items-center gap-1.5 sm:gap-2 my-4 sm:my-6">
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-bounce shadow-lg shadow-emerald-500/50"></div>
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-bounce shadow-lg shadow-emerald-500/50 [animation-delay:0.2s]"></div>
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-bounce shadow-lg shadow-emerald-500/50 [animation-delay:0.4s]"></div>
+                  <div className="flex justify-center items-center gap-2 sm:gap-3 my-6 sm:my-8">
+                    <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-bounce shadow-lg shadow-emerald-500/50"></div>
+                    <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-bounce shadow-lg shadow-emerald-500/50 [animation-delay:0.2s]"></div>
+                    <div className="w-2 sm:w-3 h-2 sm:h-3 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 animate-bounce shadow-lg shadow-emerald-500/50 [animation-delay:0.4s]"></div>
                   </div>
 
                   {/* Return Home Button */}
-                  <div className="mt-4 sm:mt-6">
-                    <Link to={'/home'}>
-                      <button className="group w-full sm:w-auto min-w-[200px] px-6 sm:px-8 py-2.5 sm:py-3 rounded-2xl bg-gradient-to-r from-sky-500 via-purple-500 to-purple-600 hover:from-sky-600 hover:via-purple-600 hover:to-purple-700 active:scale-95 transition-all duration-300 font-medium text-sm sm:text-base shadow-xl shadow-sky-500/25 hover:shadow-2xl hover:shadow-sky-500/40 backdrop-blur-sm border border-white/20 flex items-center justify-center gap-2 text-white">
+                  <div className="mt-6 sm:mt-8 px-4">
+                    <Link to={'/home'} className="block w-full">
+                      <button className="group w-full sm:max-w-[240px] mx-auto px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-sky-500 via-purple-500 to-purple-600 hover:from-sky-600 hover:via-purple-600 hover:to-purple-700 active:scale-95 transition-all duration-300 font-bold text-base sm:text-lg shadow-xl shadow-sky-500/25 hover:shadow-2xl hover:shadow-sky-500/40 backdrop-blur-sm border border-white/20 flex items-center justify-center gap-2 sm:gap-3 text-white">
                         <span>Return to Home</span>
                         <svg
-                          className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-all duration-300 group-hover:rotate-12"
+                          className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:translate-x-1 transition-all duration-300 group-hover:rotate-12"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -290,22 +285,22 @@ export const Order = () => {
                 </div>
               </div>
             ) : serviceName === 'account' ? (
-              <div className={`mt-6 p-5 sm:p-6 rounded-2xl border md:max-w-[500px] md:mx-auto border-white/20  shadow-lg transition-all duration-300 ${liquidGlassClasses?.base}`}>
+              <div className={`mt-8 p-6 md:p-8 rounded-2xl border md:max-w-[600px] md:mx-auto border-white/20 shadow-lg transition-all duration-300 ${liquidGlassClasses?.base}`}>
                 {/* Success Header */}
-                <div className="flex flex-col items-center justify-center mb-6 transform transition-all duration-300 hover:scale-105">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg mb-4">
-                    <Check className="w-8 h-8 text-white animate-bounce" />
+                <div className="flex flex-col items-center justify-center mb-8 transform transition-all duration-300 hover:scale-105">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 flex items-center justify-center shadow-lg mb-6">
+                    <Check className="w-10 h-10 text-white animate-bounce" />
                   </div>
-                  <h2 className="font-bold text-xl md:text-2xl text-center bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
+                  <h2 className="font-bold text-2xl md:text-3xl text-center bg-gradient-to-r from-emerald-300 to-emerald-500 bg-clip-text text-transparent">
                     Thank you! Your order is confirmed.
                   </h2>
                 </div>
 
-                <div className="mb-2">
-                  <div className="flex items-center justify-center p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl mb-4">
-                    <div className="flex items-start gap-3">
+                <div className="mb-6">
+                  <div className="flex items-center justify-center p-5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl mb-6">
+                    <div className="flex items-start gap-4">
                       <svg
-                        className="w-6 h-6 text-yellow-500 mt-1 animate-pulse"
+                        className="w-8 h-8 text-yellow-500 mt-1 animate-pulse"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -318,8 +313,8 @@ export const Order = () => {
                         />
                       </svg>
                       <div>
-                        <h4 className="font-semibold text-yellow-500 mb-1 text-sm">Important Notice | စာသေချာဖတ်ပါ!</h4>
-                        <p className="text-sm text-yellow-600/80">
+                        <h4 className="font-bold text-yellow-500 mb-2 text-lg">Important Notice | စာသေချာဖတ်ပါ!</h4>
+                        <p className="text-base text-yellow-600/80">
                           Please carefully save the following login credentials.
                         </p>
                       </div>
@@ -327,21 +322,21 @@ export const Order = () => {
                   </div>
 
                   <div className="flex flex-col w-full">
-                    <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-4 transform hover:scale-[1.02] transition-all duration-300">
-                      <p className="text-sm text-center font-medium mb-2">
+                    <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-6 transform hover:scale-[1.02] transition-all duration-300">
+                      <p className="text-lg text-center font-medium mb-4">
                         email ရယူဖို့အတွက် အတည်ပြုရန်လိုအပ်ပါတယ်
                       </p>
 
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                        <span className="text-sm opacity-60">Admin ထဲ ဆက်သွယ်ပါ</span>
-                        <div className="flex flex-wrap justify-center gap-2">
+                      <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <span className="text-base opacity-60">Admin ထဲ ဆက်သွယ်ပါ</span>
+                        <div className="flex flex-wrap justify-center gap-3">
                           <a
                             href="https://t.me/Zkari889"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex items-center gap-2 text-sm px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-blue-500/30 transition-all duration-300"
+                            className="group flex items-center gap-3 text-base px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-blue-500/30 transition-all duration-300"
                           >
-                            <svg className="w-4 h-4 text-blue-400 group-hover:text-blue-300" viewBox="0 0 24 24" fill="currentColor">
+                            <svg className="w-5 h-5 text-blue-400 group-hover:text-blue-300" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l7.5 4.5-7.5 4.5z" />
                             </svg>
                             <span className="text-blue-400 group-hover:text-blue-300 font-medium">@Admin1</span>
@@ -350,9 +345,9 @@ export const Order = () => {
                             href="https://t.me/samsouta"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group flex items-center text-sm gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-blue-500/30 transition-all duration-300"
+                            className="group flex items-center text-base gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 border border-blue-500/30 transition-all duration-300"
                           >
-                            <svg className="w-4 h-4 text-blue-400 group-hover:text-blue-300" viewBox="0 0 24 24" fill="currentColor">
+                            <svg className="w-5 h-5 text-blue-400 group-hover:text-blue-300" viewBox="0 0 24 24" fill="currentColor">
                               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l7.5 4.5-7.5 4.5z" />
                             </svg>
                             <span className="text-blue-400 group-hover:text-blue-300 font-medium">@Admin2</span>
@@ -362,7 +357,7 @@ export const Order = () => {
                     </div>
                   </div>
 
-                  <div className="mt-4 p-3 text-sm rounded-lg bg-red-500/10 border border-red-500/20">
+                  <div className="mt-6 p-4 text-base rounded-lg bg-red-500/10 border border-red-500/20">
                     <p className="text-center text-red-400 font-medium">
                       Admin ထံ email ပဲ ပို့ပါ ကျန်တဲ့ password and game password ပို့ရန်မလိုပါ
                     </p>
@@ -370,45 +365,45 @@ export const Order = () => {
                 </div>
 
                 {/* Credential Block */}
-                <div className="grid gap-3 text-sm sm:text-base font-medium">
-                  <div className="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm border border-white/10">
-                    <Mail className="w-4 h-4 text-blue-400" />
+                <div className="grid gap-4 text-base font-medium">
+                  <div className="flex items-center gap-3 bg-white/10 rounded-lg px-5 py-3 backdrop-blur-sm border border-white/10">
+                    <Mail className="w-5 h-5 text-blue-400" />
                     <div className="flex justify-between items-center w-full">
                       <span className="opacity-60">Email:</span>
-                      <span className="font-medium truncate ml-2">{userCredentials?.email}</span>
+                      <span className="font-medium truncate ml-3">{userCredentials?.email}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm border border-white/10">
-                    <Lock className="w-4 h-4 text-yellow-400" />
+                  <div className="flex items-center gap-3 bg-white/10 rounded-lg px-5 py-3 backdrop-blur-sm border border-white/10">
+                    <Lock className="w-5 h-5 text-yellow-400" />
                     <div className="flex justify-between items-center w-full">
                       <span className="opacity-60">Email Password:</span>
-                      <span className="font-medium truncate ml-2">{userCredentials?.email_password}</span>
+                      <span className="font-medium truncate ml-3">{userCredentials?.email_password}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-2 backdrop-blur-sm border border-white/10">
-                    <KeyRound className="w-4 h-4 text-pink-400" />
+                  <div className="flex items-center gap-3 bg-white/10 rounded-lg px-5 py-3 backdrop-blur-sm border border-white/10">
+                    <KeyRound className="w-5 h-5 text-pink-400" />
                     <div className="flex justify-between items-center w-full">
                       <span className="opacity-60">Game Password:</span>
-                      <span className="font-medium truncate ml-2">{userCredentials?.game_password}</span>
+                      <span className="font-medium truncate ml-3">{userCredentials?.game_password}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Security Warning */}
-                <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20">
-                  <p className="text-sm text-center text-red-400">
-                    <span className="block font-semibold mb-1">⚠️ Security Warning</span>
+                <div className="mt-8 p-5 rounded-xl bg-red-500/10 border border-red-500/20">
+                  <p className="text-base text-center text-red-400">
+                    <span className="block font-bold mb-2 text-lg">⚠️ Security Warning</span>
                     Keep your credentials safe and secure. Do not share them with others.<br />
                     ဒီထဲက Email နဲ့ password များကိုတခြားသူကိုမရှဲပါနှင့်
                   </p>
                 </div>
 
                 {/* Return Home Button */}
-                <div className="mt-6 text-center">
+                <div className="mt-8 text-center">
                   <Link to={'/home'}>
-                    <button className="inline-flex items-center justify-center px-6 py-2 rounded-lg bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-600 hover:to-purple-700 transition-all duration-300 font-medium">
+                    <button className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-600 hover:to-purple-700 transition-all duration-300 font-bold text-lg">
                       Return to Home
                     </button>
                   </Link>
@@ -418,19 +413,19 @@ export const Order = () => {
           )}
 
           {/* Footer */}
-          <div className="text-center mt-8 mb-8">
-            <div className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+          <div className="text-center mt-10 mb-10">
+            <div className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  className="w-4 h-4"
+                  className="w-5 h-5"
                 >
                   <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 00-1.032-.211 50.89 50.89 0 00-8.71 0c-2.24.308-4.095 2.291-4.095 4.525v.858c0 2.25 1.851 4.142 4.095 4.525a50.884 50.884 0 008.71 0c.34-.047.677-.112 1.032-.211-1.114 1.866-2.483 3.477-4.405 3.727a48.461 48.461 0 01-6.337.408 48.461 48.461 0 01-6.337-.408C1.821 19.072.374 17.392.374 15.607v-6.97c0-1.782 1.447-3.462 4.539-3.979z" />
                 </svg>
               </div>
-              <span className="text-sm font-medium">
+              <span className="text-base font-medium">
                 Need help? <a href="https://t.me/samsouta" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors">Contact Support</a>
               </span>
             </div>

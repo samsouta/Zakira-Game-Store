@@ -21,6 +21,7 @@ export type ProductData = {
   };
   discount_percent: number;
   game : GameType;
+  service:ServicesType
 }
 
 export type PaginationData = {

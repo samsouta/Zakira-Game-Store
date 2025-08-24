@@ -51,7 +51,7 @@ export const ProductGrid = () => {
               Available Our Store 
             </h2>
             <p className="text-x opacity-60 font-medium  max-w-3xl mx-auto">
-              အခုပဲ Buy Now ကို နိုပ်လိုက်ပါ  🔥
+              အခုပဲဝယ်လိုက်တော့နော်..🔥
             </p>
           </motion.div>
 

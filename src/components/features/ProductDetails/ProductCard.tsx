@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Star, Diamond, Flame, Sparkles, ShoppingCart } from "lucide-react";
+import { Star, Diamond, Flame, Sparkles, ShoppingCart, Gift } from "lucide-react";
 import { PreviewSlide } from "../../UI/PreviewSlide";
 import type { ProductData } from "../../../types/ProductType";
 
@@ -67,7 +67,7 @@ const AccountProductCard: React.FC<AccountProductCardProps> = ({ pkg }) => {
                   </span>
                 </div>
                 <p className="text-white/80 text-sm animate-pulse">
-                  Check back later for availability
+                  Thank you for support ❤️
                 </p>
               </div>
             </div>
@@ -191,8 +191,9 @@ export default AccountProductCard;
 //// diamond product card +++++++++++++++++++++++++++++
 import { Gem, Zap } from "lucide-react";
 import { useDispatch } from 'react-redux';
-import { setDiaData } from "../../../services/Slice/orderSlice";
+import { setDiaData, setOrder } from "../../../services/Slice/orderSlice";
 import { liquidGlassClasses } from "../../../style/LiquidGlass";
+import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
   pkg: ProductData;
@@ -243,6 +244,28 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
             </div>
           ) : null}
 
+          {/* Sold out Badge */}
+          {pkg.is_sold && (
+            <div className="absolute inset-0 flex items-center justify-center z-30">
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+              <div className="relative flex flex-col items-center gap-3 transform scale-110">
+                <div className="backdrop-blur-xl bg-white/10 border-2 border-red-500/50 text-white rounded-2xl px-6 py-3 flex items-center gap-3 shadow-[0_0_30px_rgba(255,0,0,0.2)]">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-red-500 rounded-full animate-ping opacity-50" />
+                    <div className="relative w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                      <span className="text-white text-xs">!</span>
+                    </div>
+                  </div>
+                  <span className="font-bold text-base tracking-wider uppercase">
+                    Sold Out
+                  </span>
+                </div>
+                <p className="text-white/80 text-sm animate-pulse">
+                  Check back later for availability
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* Content */}
           <div className="space-y-2">
@@ -290,5 +313,130 @@ export const DiamondProductCard: React.FC<ProductCardProps> = ({ onOpen, pkg }) 
       </div>
 
     </>
+  );
+};
+
+
+
+//////VoucherCard component////////////
+interface VoucherCardProps {
+  pkg: ProductData;
+}
+
+export const VoucherCard: React.FC<VoucherCardProps> = ({ pkg }) => {
+  const router = useNavigate();
+  const dispatch = useDispatch();
+
+
+
+
+  /**
+ * @function handle handleVoucherSelect
+ */
+  const handleVoucherSelect = async () => {
+
+    try {
+      // Validate data from pkg before dispatching
+      if (!pkg) {
+        throw new Error('Package data is missing');
+      }
+
+      // Dispatch order data to store
+      dispatch(setOrder({
+        orderId: pkg?.id?.toString() || '',
+        orderType: pkg?.game?.name|| '',
+        image: pkg?.img_url || '',
+        title: pkg?.name || '',
+        totalPrice: Number(pkg?.price || 0),
+        service_id: pkg?.service_id,
+        game_server: '',
+        game_uid: ''
+      }));
+
+      // Navigate to order page
+      router('/order');
+
+      // Smooth scroll to top
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    } catch (error) {
+      console.error('Failed to process order:', error);
+    }
+  };
+
+  return (
+    <div className={`w-full px-1 md:px-3 ${liquidGlassClasses?.liquidText}`}>
+      <div
+        className={`
+        relative cursor-pointer 
+        w-full rounded-xl bg-white/10 border border-white/20 ${liquidGlassClasses?.base}
+        p-4 shadow-md hover:shadow-lg transition
+        ${pkg?.is_popular ? "ring-1 ring-yellow-400/50" : ""}
+      `}
+      >
+        {/* Popular Badge */}
+        {pkg?.is_popular && (
+          <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 z-10">
+            <div className="bg-gradient-to-r from-yellow-400 to-orange-500 px-2 py-0.5 rounded-full text-[10px] font-medium">
+              ⭐ Popular
+            </div>
+          </div>
+        )}
+
+        {/* Sold Out Badge */}
+        {pkg.is_sold && (
+          <div className="absolute inset-0 flex items-center justify-center z-30">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            <div className="relative flex flex-col items-center gap-3 transform scale-110">
+              <div className="backdrop-blur-xl bg-white/10 border-2 border-red-500/50 text-white rounded-2xl px-6 py-3 flex items-center gap-3 shadow-[0_0_30px_rgba(255,0,0,0.2)]">
+                <span className="text-red-500 font-bold">Sold Out</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Voucher Image */}
+        <div className="flex justify-center">
+          <img
+            src={pkg?.img_url}
+            alt={pkg?.description}
+            className="w-20 h-20 rounded-md object-fill"
+          />
+        </div>
+
+        {/* Voucher Name */}
+        <h3 className="text-center text-sm font-semibold mt-2 line-clamp-1">
+          {pkg?.name}
+        </h3>
+
+        {/* Description */}
+        {pkg?.description && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-1 line-clamp-2">
+            {pkg?.description}
+          </p>
+        )}
+
+        {/* Price */}
+        <div className="text-center mt-2">
+          <div className="font-bold text-base text-emerald-500">
+            MMK {Math.floor(Number(pkg.price))}
+          </div>
+        </div>
+
+        {/* Buy Button */}
+        <button
+          onClick={handleVoucherSelect}
+          className="mt-3 w-full py-2 px-3 rounded-lg text-xs font-medium bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-90 transition"
+        >
+          <div className="flex items-center justify-center gap-1">
+            <Gift className="w-4 h-4" />
+            <span>Buy Code</span>
+            <Zap className="w-3 h-3" />
+          </div>
+        </button>
+      </div>
+    </div>
   );
 };

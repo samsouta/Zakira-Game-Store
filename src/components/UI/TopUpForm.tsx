@@ -6,16 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../services/store';
 import { setOrder } from '../../services/Slice/orderSlice';
 
+
+const HiddenGame = ['pubg-coin']
 const TopUpForm = ({ onClose }: { 
   onClose: () => void 
 }) => {
   const pkg = useSelector((state: RootState) => state.order?.diaData);
+  const gameSlug = useSelector((state: RootState) => state?.services?.gameName);
   const [gameId, setGameId] = useState('');
   const [serverId, setServerId] = useState('');
   const [error, setError] = useState('');
   const router = useNavigate();
   const dispatch = useDispatch();
-
   // prevent scroll
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -23,12 +25,14 @@ const TopUpForm = ({ onClose }: {
       document.body.style.overflow = 'unset';
     };
   }, []);
+
+
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
 
   // Validate required fields
-  if (!gameId.trim() || !serverId.trim()) {
-    setError('⚠️ Both Game ID and Server ID are required.');
+  if (!gameId.trim()) {
+    setError('⚠️ Game ID is required.');
     return;
   }
 
@@ -112,23 +116,34 @@ const handleSubmit = async (e: React.FormEvent) => {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="block  text-sm sm:text-base">Server ID</label>
-            <input
-              type="number"
-              value={serverId}
-              onChange={(e) => setServerId(e.target.value)}
-              placeholder="e.g. 1234"
-              className={`w-full px-4 py-2 rounded-xl 
-                focus:ring-2 focus:ring-blue-400 
-                text-gray-900 dark:text-white
-                bg-white dark:bg-gray-800
-                border border-gray-300 dark:border-gray-600
-                placeholder:text-gray-400 dark:placeholder:text-gray-500
-                focus:border-blue-400 dark:focus:border-blue-400
-                transition-colors duration-200`}
-            />
-          </div>
+          {!HiddenGame.includes(gameSlug || '') && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="block text-sm sm:text-base font-medium">
+                  Server ID
+                </label>
+              </div>
+              
+              {/* Server ID ( Optional ) for Other Game  */}
+              <div className="relative">
+                <input
+                  type="number"
+                  value={serverId}
+                  onChange={(e) => setServerId(e.target.value)}
+                  placeholder="Enter server ID "
+                  className={`w-full px-4 py-3 rounded-xl
+                    focus:ring-2 focus:ring-blue-400 
+                    text-gray-900 dark:text-white
+                    bg-white dark:bg-gray-800
+                    border border-gray-300 dark:border-gray-600
+                    placeholder:text-gray-400 dark:placeholder:text-gray-500
+                    focus:border-blue-400 dark:focus:border-blue-400
+                    transition-all duration-200
+                    hover:border-blue-400`}
+                />
+              </div>
+            </div>
+          )}
 
           <button
             type="submit"

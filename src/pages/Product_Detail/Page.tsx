@@ -8,7 +8,7 @@
 import { motion } from 'framer-motion';
 import PaginationDemo from '../../components/UI/PaginationDemo';
 import { useSearchParams } from 'react-router-dom';
-import AccountProductCard, { DiamondProductCard } from '../../components/features/ProductDetails/ProductCard';
+import AccountProductCard, { DiamondProductCard, VoucherCard } from '../../components/features/ProductDetails/ProductCard';
 import { useGetProductsQuery } from '../../services/API/productsAPI';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../services/store';
@@ -50,7 +50,6 @@ export const Page = () => {
   const serviceName = useSelector((state: RootState) => state?.services?.serviceName);
   const serviceDesc = useSelector((state: RootState) => state?.services?.description);
   const slug = useSelector((state: RootState) => state?.services?.slug);
-
   // Fetch products data with pagination and service filtering
   const { data: productsData, isLoading: isProductsLoading, error: productsError } = useGetProductsQuery({
     page: Number(page.get('page')) || 1,
@@ -176,6 +175,31 @@ export const Page = () => {
                 )
 
               }
+
+
+              {/* /**++++++++++++++VoucherCard component ++++++++++++++ */ }
+              {
+                serviceName?.toLowerCase().replace(" ", "-") === "code" && (
+                  <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-6`}>
+                    {productsData?.data?.data
+                      ?.map((product) => (
+                        <motion.div
+                          key={product.id}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{
+                            duration: 0.5,
+                            ease: "easeOut"
+                          }}
+                          className="w-full h-full"
+                        >
+                          <VoucherCard pkg={product} />
+                        </motion.div>
+                      ))}
+                  </div>
+                )
+
+              }
             </div>
 
             {/* No products found message */}
@@ -215,7 +239,7 @@ export const Page = () => {
         </motion.div>
 
         {/* Pagination section */}
-        <div className="bg-white/30 backdrop-blur-xl mt-10 mb-5 rounded-3xl border border-white/40 p-4 sm:p-8 lg:p-12 shadow-2xl shadow-black/10">
+        <div className={`mt-10 mb-5 rounded-3xl  p-4 sm:p-8 lg:p-12 shadow-2xl shadow-black/10  ${liquidGlassClasses?.base}`}>
           <PaginationDemo
             current_Page={productsData?.data?.current_page || 1}
             total_Pages={productsData?.data?.last_page || 1}

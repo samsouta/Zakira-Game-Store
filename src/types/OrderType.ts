@@ -1,5 +1,6 @@
 import type { UploadRow } from "./FileType";
 import type { ProductData } from "./ProductType";
+import type { ServicesType } from "./servicesType";
 
 export type CreateOrderResponse = {
   success: boolean;

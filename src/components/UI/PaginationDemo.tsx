@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Pagination from './Pagination';
 import { useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
+import { liquidGlassClasses } from '../../style/LiquidGlass';
 
 type PaginationDemoProps = {
   current_Page: number | undefined;
@@ -45,15 +46,15 @@ const PaginationDemo: React.FC<PaginationDemoProps> = ({ current_Page, total_Pag
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 space-y-8 md:space-y-12">
+    <div className={`w-full max-w-4xl mx-auto px-4 space-y-8 md:space-y-12 ${liquidGlassClasses?.liquidText}`}>
       {/* Current State Display */}
       <div className="text-center">
-        <div className="inline-flex items-center space-x-2 md:space-x-4 p-4 md:p-6 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-md border border-white/20">
-          <span className="text-sm md:text-base text-gray-700 font-medium">Current Page:</span>
+        <div className={`inline-flex items-center space-x-2 md:space-x-4 p-4 md:p-6 rounded-2xl md:rounded-3xl ${liquidGlassClasses?.base}`}>
+          <span className="text-sm md:text-base opacity-70 font-medium">Current Page:</span>
           <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             {currentPage}
           </span>
-          <span className="text-sm md:text-base text-gray-500">of {totalPages}</span>
+          <span className="text-sm md:text-base ">of {totalPages}</span>
         </div>
       </div>
 

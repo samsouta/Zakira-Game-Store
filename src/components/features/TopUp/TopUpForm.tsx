@@ -20,14 +20,14 @@ export const TopUpForm = ({ onSubmit, isLoading }: TopUpFormProps) => {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [error, setError] = useState<string>('');
     const [fileErr, setFileErr] = useState<string>('');
-    const [bonus, setBonus] = useState<number>(0);
+    const [verifyAmount, setVerifyAmount] = useState<number>(0);
 
 
 
     /**
     * Generate random bonus based on amount
     */
-    const generateBonus = (amt: number) => {
+    const generateAmount = (amt: number) => {
         if (amt < 100000) {
             return Math.floor(Math.random() * 500) + 1; // 1 - 500
         } else {
@@ -44,13 +44,13 @@ export const TopUpForm = ({ onSubmit, isLoading }: TopUpFormProps) => {
             setAmount(value);
 
             if (value !== '' && parseInt(value) < 2000) {
-                setError('Minimum top-up amount is 2000K');
-                setBonus(0);
+                setError('Minimum top-up amount is 2000Ks');
+                setVerifyAmount(0);
             } else {
                 setError('');
                 const numericAmount = parseInt(value);
                 if (!isNaN(numericAmount)) {
-                    setBonus(generateBonus(numericAmount));
+                    setVerifyAmount(generateAmount(numericAmount));
                 }
             }
         }
@@ -96,7 +96,7 @@ export const TopUpForm = ({ onSubmit, isLoading }: TopUpFormProps) => {
         if (amount && paymentMethod && file) {
             const numericAmount = parseFloat(amount);
             if (!isNaN(numericAmount) && numericAmount >= 2000) {
-                const totalAmount = numericAmount + bonus;
+                const totalAmount = numericAmount + verifyAmount;
                 onSubmit({
                     amount: totalAmount,
                     paymentMethod: paymentMethod,
@@ -147,21 +147,53 @@ export const TopUpForm = ({ onSubmit, isLoading }: TopUpFormProps) => {
                         </span>
                     )}
 
-                    {/* ✅ Show Bonus + Final Amount */}
+                    {/* ✅ Show Final Amount */}
                     {amount && !error && (
-                        <div className="mt-3 p-4 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5 dark:from-cyan-500/10 dark:to-purple-500/10 border border-white/20 dark:border-cyan-400/30 backdrop-blur-sm text-sm">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="animate-bounce">🎁</span>
-                                <span className="text-black/70 dark:text-white/70">Bonus:</span>
-                                <span className="font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">{bonus} Ks</span>
+                        <div className="mt-4 p-4 rounded-xl bg-gradient-to-br from-cyan-500/5 to-purple-500/5 dark:from-cyan-500/10 dark:to-purple-500/10 border border-white/20 dark:border-cyan-400/30 backdrop-blur-sm text-sm">
+
+                            {/* Breakdown */}
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Entered Amount:</span>
+                                    <span className="font-medium">{parseInt(amount)} Ks</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Verification Code:</span>
+                                    <span className="font-medium text-blue-500">+{verifyAmount} Ks</span>
+                                </div>
+                                <hr className="border-white/20 my-2" />
+                                <div className="flex justify-between items-center">
+                                    <div className="flex flex-col">
+                                        <span className="font-semibold">Amount to Pay : </span>
+                                        <span className="font-semibold text-sm text-gray-500">လွဲရန်ငွေပမာဏ : </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-bold text-sm md:text-lg text-emerald-600 dark:text-emerald-400">
+                                            {parseInt(amount) + verifyAmount} Ks
+                                        </span>
+                                        <button
+                                            onClick={() => navigator.clipboard.writeText((parseInt(amount) + verifyAmount).toString())}
+                                            className="px-2 py-1 text-xs bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-500/30 transition"
+                                        >
+                                            Copy
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <span className="animate-pulse">💳</span>
-                                <span className="text-black/70 dark:text-white/70">Final Bill:</span>
-                                <span className="font-bold bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">{parseInt(amount) + bonus} Ks</span>
-                            </div>
+
+                            {/* Info Note */}
+                            {/* Info Note */}
+                            <p className="text-xs mt-3 text-gray-500 dark:text-gray-400">
+                                ⚠️ Please transfer the <span className="font-semibold">exact amount</span>.
+                                The extra <span className="font-semibold">+{verifyAmount} Ks</span> is used to verify your payment and prevent fake receipts.
+                                <br />
+                                ⚠️ ကျေးဇူးပြုပြီး <span className="font-semibold">တိကျသော ပမာဏ</span> ကိုပဲ ဖြည့်ပေးပါ။
+                                ထပ်ပေါင်း <span className="font-semibold">+{verifyAmount} Ks</span> သည် ငွေပေးချေမှုစစ်ဆေးရန်နှင့် အတု ငွေလက်ခံပြေစာများကို တားဆီးရန် အသုံးပြုထားခြင်း ဖြစ်ပါသည်။
+                            </p>
+
                         </div>
                     )}
+
                 </div>
 
                 <div>

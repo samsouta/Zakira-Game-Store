@@ -1,3 +1,5 @@
+import type { ProductData } from "./ProductType";
+
 export type MessageResponse = {
   success: boolean;
   message: string;
@@ -8,5 +10,7 @@ export type MessageResponse = {
     body: string;
     is_read: boolean;
     created_at: string
+    product: ProductData;
+
   }[];
 };

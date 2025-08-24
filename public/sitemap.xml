@@ -3,61 +3,49 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
-  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
->
+  http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
+  <!-- Main -->
   <url>
     <loc>https://zakari.site/home</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- Search -->
   <url>
     <loc>https://zakari.site/search</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
+  <!-- Auth pages (low priority) -->
   <url>
     <loc>https://zakari.site/login</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
-
   <url>
     <loc>https://zakari.site/register</loc>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
 
+  <!-- Legal pages -->
   <url>
     <loc>https://zakari.site/privacy-policy</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <priority>0.5</priority>
   </url>
-
   <url>
     <loc>https://zakari.site/terms-of-service</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <priority>0.5</priority>
   </url>
-
   <url>
     <loc>https://zakari.site/security-policy</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
-  </url>
-
-  <url>
-    <loc>https://zakari.site/banned</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-  </url>
-
-  <url>
-    <loc>https://zakari.site/404</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

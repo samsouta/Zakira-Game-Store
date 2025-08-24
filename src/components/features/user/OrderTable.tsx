@@ -33,7 +33,7 @@ export const OrderTable: React.FC<OrderTableProps> = ({ orders, onViewDetails })
                             </td>
                             <td className="p-2 md:p-4  text-xs md:text-sm">
                                 <div className="max-w-[120px] md:max-w-none truncate md:whitespace-normal" title={order?.product?.name}>
-                                    {order?.product?.product_type}
+                                    {order?.product?.service?.name}
                                 </div>
                             </td>
                             <td className="p-2 md:p-4 font-semibold text-xs md:text-sm">{formatCurrency(Number(order?.total_price))}</td>
@@ -50,7 +50,7 @@ export const OrderTable: React.FC<OrderTableProps> = ({ orders, onViewDetails })
                                 </div> */}
                             </td>
                             <td className="p-2 md:p-4">
-                                {order?.product?.product_type === "account" ? (
+                                {order?.product?.service?.name === "account" ? (
                                     <button
                                         onClick={() => onViewDetails(order?.meta)}
                                         className="min-w-[60px] md:min-w-[100px] px-2 md:px-3 py-1 md:py-1.5 text-xs md:text-sm bg-green-500/20 hover:bg-blue-500/30 text-green-300 rounded-lg border border-green-400/30 transition-all duration-200 hover:shadow-lg hover:shadow-green-500/25"

@@ -65,8 +65,8 @@ const Pagination: React.FC<PaginationProps> = ({
         rounded-xl md:rounded-2xl font-medium text-sm md:text-base
         transition-all duration-300 ease-out select-none
         ${isActive
-          ? 'text-white shadow-lg shadow-blue-500/25'
-          : 'text-gray-700 hover:text-gray-900'
+          ? ' shadow-lg shadow-blue-500/25'
+          : ' hover:text-gray-900'
         }
         ${isDisabled
           ? 'opacity-40 cursor-not-allowed'
@@ -142,7 +142,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <React.Fragment key={index}>
             {page === '...' ? (
               <div className="flex items-center justify-center w-8 md:w-10">
-                <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
+                <MoreHorizontal className="w-4 h-4 md:w-5 md:h-5 " />
               </div>
             ) : (
               <PaginationButton
